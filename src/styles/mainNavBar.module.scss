@@ -1,0 +1,82 @@
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: rgba(12, 23, 43, 1.8);
+  height: 80px;
+  padding: 0 30px;
+  font-family: "Montserrat", sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.menuItemWithSubmenu {
+  position: relative;
+}
+
+.menuButton {
+  background-color: transparent;
+  border: none;
+  // color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuButton:hover {
+  color: #ff4500;
+}
+
+.menuTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+
+.subMenu {
+  top: 20px !important;
+  left: 0 !important;
+  border: none !important;
+  box-shadow: 0px 2px 5px 10px rgba(0, 0, 0, 0.1) !important;
+  padding: 10px 0 !important;
+
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  // color: white !important;
+  z-index: 10;
+}
+
+.subMenuTitle {
+  margin: 0;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  width: 200px;
+  display: block;
+  &:hover{
+    color: white;
+    background-color: #2887ed;
+  }
+}
+

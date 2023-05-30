@@ -1,0 +1,157 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  height: 4rem;
+  margin: 22px -6px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  justify-items: center;
+  padding-bottom: 1px;
+}
+
+.favoriteHeading {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.logo a {
+  // color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-bottom: 2px dashed black;
+}
+
+.icons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  // background-color: #eee;
+}
+
+.icons a:hover {
+  // background-color: #ddd;
+}
+
+.icons i {
+  color: #555;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+}
+
+.phone {
+  font-size: 1.2rem;
+  font-weight: 500;
+  // color: white;
+}
+
+.search_icon {
+  top: 19px;
+  bottom: 16px;
+  left: auto;
+  width: 20px;
+  position: absolute;
+}
+
+.search {
+  padding: 7px;
+  border-radius: 60px;
+  // border-color: white;
+  margin: 1px;
+  width: 317px;
+}
+
+.auth {
+  display: flex;
+  gap: 1rem;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.search_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  // background-color: rgba(12, 23, 43, 1.8);
+}
+
+.search_container > input {
+  // background-color: rgba(12, 23, 43, 1.8);
+  border-radius: -22px;
+  border: 1px solid black;
+}
+
+.shoppingCart {
+  position: relative;
+  bottom: 13px;
+  left: 2px;
+  height: 48px;
+}
+
+.search_container > input ::placeholder {
+  // color: white;
+}
+
+.shoopingCartIocn {
+  top: 15px;
+  bottom: 10px;
+  left: 180px;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+}
+
+.login,
+.register {
+  display: inline-block;
+  padding: 0.5rem;
+}
+
+.shoopingCart {
+  color: red;
+  margin-left: 7px;
+  font-weight: 600;
+}
+
+.badge {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  position: absolute;
+  left: -9px;
+  top: -26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.bedge_style {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  position: absolute;
+  left: -9px;
+  top: -26px;
+}
