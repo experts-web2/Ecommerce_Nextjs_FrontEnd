@@ -9,14 +9,20 @@ export async function getAllProducts() {
   }
 }
 
-export async function getAllOrdersByType(type: any) {
+export async function getAllOrdersByType(field:any,value:any) {
   try {
-    const response = await axios.get(ApiUrl + `/product/type/${type}`);
+    const response = await axios.get(ApiUrl + '/product/itemByCategory', {
+      params: {
+        field: field,
+        value: value,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
   }
 }
+
 
 export async function getProductDetails(id: any) {
   try {

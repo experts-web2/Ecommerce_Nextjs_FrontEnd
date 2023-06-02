@@ -18,16 +18,21 @@ import MegaDiscount from "@/components/home/megaDiscount/MegaDiscount";
 const inter = Inter({ subsets: ["latin"] });
 const TopSallers = dynamic(() => import("../components/topSallers/topsaller"));
 const Brands = dynamic(() => import("../components/home/brands/brands"));
+import { useDispatch } from "react-redux";
+import { getproducts } from "@/slices/productSlices";
 
 export default function Home() {
+  const dispatch = useDispatch();
   const [products, isproducts] = useState<any>([]);
-  const getProducts = async () => {
+  const getProductss = async () => {
     const data = await getAllProducts();
     isproducts(data);
+    dispatch(getproducts(data));
   };
 
   useEffect(() => {
-    getProducts();
+    getProductss();
+    dispatch(getproducts(products[0]));
   }, []);
 
   return (

@@ -9,6 +9,7 @@ import Link from "next/link";
 const TopSallersSlides = ({ loading, ProductData }: any) => {
   const [loading1, setLoading] = useState(loading);
   useEffect(() => {
+    console.log("ProductData", ProductData);
     if (ProductData?.length > 0) {
       setLoading(false);
     }

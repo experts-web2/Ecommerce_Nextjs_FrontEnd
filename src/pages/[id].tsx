@@ -1,3 +1,4 @@
+import toast, { Toaster } from "react-hot-toast";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { responsive } from "../constants/carousalResponsive";
@@ -13,6 +14,7 @@ import { addToCart } from "../slices/CartSlice";
 import { useDispatch } from "react-redux";
 import SizeChart from "../utils/SizeChart";
 import { getProductDetails } from "@/services/product.services";
+import { useNotification } from "@/hooks/notifications";
 interface CartItem {
   name: string;
   quantity: number;
@@ -22,6 +24,7 @@ interface CartItem {
 }
 
 const ProductDetail = () => {
+  const { success, failed } = useNotification();
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
@@ -29,11 +32,10 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
   const [sku, setSku] = useState("");
-  const [size,setSize]=useState("");
   const filteredProducts = sideDataClone.filter(
     (item: any) => item.id == id
   )[0];
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState<any>();
 
   const handleClose = () => {
     setOpen(false);
@@ -48,19 +50,21 @@ const ProductDetail = () => {
   };
 
   const ProductDetails = async () => {
-    console.log("id of useEffect=", id);
     const data = await getProductDetails(id);
     setProduct(data);
+    console.log("datttttaaa",data)
+    await setSelectedImage(data[0]?.media[0].images[0]);
+    // product[0]?.media[0].images
   };
 
   useEffect(() => {
     ProductDetails();
+
   }, [id]);
 
   useMemo(() => {
     if (id && filteredProducts) {
       setSku(filteredProducts.variants[0].sku);
-      // setSelectedImage(filteredProducts.featured_image);
     } else {
       setProduct(null);
       setSku("");
@@ -82,7 +86,7 @@ const ProductDetail = () => {
     sku: string,
     id: string,
     price: string,
-    size?:any
+    size?: any
   ) => {
     const cartItem: CartItem = {
       name,
@@ -96,19 +100,20 @@ const ProductDetail = () => {
 
   return (
     <div className="mt-3 mb-3 max-w-screen-xl mx-4 w-full xl:mx-auto">
+      <Toaster />
       <div className="flex row content-between ">
         <div className="w-1/2">
           <img
             src={selectedImage}
             alt="image"
             className="mx-auto w-full max-w-md"
-            height={500}
+            height={100}
           />
           <div className="mt-4 mb-4">
             <Carousel
               focusOnSelect={true}
               swipeable={true}
-              draggable={true}
+            draggable={true}
               showDots={true}
               responsive={responsive}
               ssr={true}
@@ -161,7 +166,6 @@ const ProductDetail = () => {
             ) : (
               <div>
                 <span
-                
                   className="text-red-500 line-through"
                   style={{ textDecoration: "strike" }}
                 >
@@ -238,16 +242,17 @@ const ProductDetail = () => {
           </div>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-4 block ml-auto"
-            onClick={() =>
+            onClick={() => {
               addToCardItem(
                 product[0].title,
                 quantity,
                 sku,
                 product[0]._id,
-                product[0].price,
-              
-              )
-            }
+                product[0].price
+              );
+              success("Item Added to Cart");
+              // alert("Item Added to Cart")
+            }}
           >
             Add to Cart
           </button>

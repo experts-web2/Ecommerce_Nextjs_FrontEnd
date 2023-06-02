@@ -5,14 +5,18 @@ import { menuData, topSallerData } from "../../constants/staticData";
 import styles from "./../../styles/Home.module.scss";
 import { getAllOrdersByType } from "@/services/product.services";
 
-const TopSallers = ({ ProductData }: any) => {
+const TopSallers = () => {
   const [activeTab, setActiveTab] = useState<any>(menuData[0].title);
   const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<any>([]);
 
   const filterData = async () => {
-    const data = await getAllOrdersByType(activeTab);
-    setProducts(data);
+    const filterObject = {
+      field: "category",
+      value: activeTab,
+    };
+    const data = await getAllOrdersByType(filterObject.field, filterObject.value);
+    setProducts(data?.products);
   };
 
   useEffect(() => {

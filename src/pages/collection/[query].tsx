@@ -5,51 +5,48 @@ import styles from "../../styles/Home.module.scss";
 import Link from "next/link";
 import { getAllOrdersByType } from "@/services/product.services";
 
-const initialFilters: any = {
-  brands: [],
-  gender: [],
-  sizes: [],
-};
+
 
 const SpecificCollections = () => {
   const router = useRouter();
   const { query } = router.query;
-  const [filters, setFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState<any>();
   const [products, setProducts] = useState<any>([]);
+  let filterTypes: any = {};
+
+  if (
+    query == "Mens" ||
+    query == "Womens" ||
+    query == "kids" ||
+    query == "Accessories"
+  ) {
+    filterTypes = {
+      field: "category",
+      value: query,
+    };
+  }
+  if(query == 'all-under-rs-1000'){
+    filterTypes = {
+      field: "price",
+      value: 1000,
+    };
+  }
   const getProducts = async () => {
-    const data = await getAllOrdersByType(query);
-    setProducts(data);
+    const data = await getAllOrdersByType(filterTypes.field, filterTypes.value);
+    setProducts(data?.products);
+   await setFilters(data?.filters)
   };
 
-  // ) &&
-  // filters.sizes.every(
-  //   (size: string) => size === "" || item.options[0].values.includes(size)
-  // )
-
-  // useEffect(() => {
-  // }, [query]);
-  
   useEffect(() => {
     getProducts();
-    products?.forEach((item: any) => {
-      console.log("item", item);
-      if (
-        filters.brands.every(
-          (brand: string) => brand == "" || brand == item.brand
-        )
-      ) {
-        setProducts((prevProducts: any) => [...prevProducts, item]);
-      }
-    });
-  }, [filters,query]);
+    console.log("filters",filters)
+  }, [ query]);
 
   return (
     <>
       <div className="flex">
         <div style={{ width: "25%" }}>
           <FilterationSideBar
-            products={products}
-            setFilters={setFilters}
             filters={filters}
           />
         </div>
