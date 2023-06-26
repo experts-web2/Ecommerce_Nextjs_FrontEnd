@@ -4,51 +4,43 @@ import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.scss";
 import Link from "next/link";
 import { getAllOrdersByType } from "@/services/product.services";
-
-
-
 const SpecificCollections = () => {
   const router = useRouter();
-  const { query } = router.query;
+  const { query }:any = router.query;
   const [filters, setFilters] = useState<any>();
   const [products, setProducts] = useState<any>([]);
   let filterTypes: any = {};
 
-  if (
-    query == "Mens" ||
-    query == "Womens" ||
-    query == "kids" ||
-    query == "Accessories"
-  ) {
-    filterTypes = {
-      field: "category",
-      value: query,
-    };
-  }
-  if(query == 'all-under-rs-1000'){
-    filterTypes = {
-      field: "price",
-      value: 1000,
-    };
-  }
+const setFilterType = (field: string, value: any) => {
+  filterTypes = {
+    field,
+    value,
+  };
+};
+
+if (["Mens", "Womens", "kids", "Accessories"].includes(query)) {
+  setFilterType("category", query);
+}
+
+if (query === "all-under-rs-1000") {
+  setFilterType("price", 1000);
+}
   const getProducts = async () => {
     const data = await getAllOrdersByType(filterTypes.field, filterTypes.value);
     setProducts(data?.products);
-   await setFilters(data?.filters)
+    await setFilters(data?.filters);
   };
 
   useEffect(() => {
     getProducts();
-    console.log("filters",filters)
-  }, [ query]);
+    console.log("filters", filters);
+  }, [query]);
 
   return (
     <>
       <div className="flex">
         <div style={{ width: "25%" }}>
-          <FilterationSideBar
-            filters={filters}
-          />
+          <FilterationSideBar filters={filters} />
         </div>
         <div>
           <p className="uppercase ml-8 my-4 text-lg font-bold">{query}</p>

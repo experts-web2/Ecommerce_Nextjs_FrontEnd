@@ -19,6 +19,16 @@ const TopSallers = () => {
     setProducts(data?.products);
   };
 
+  const topSallerDataDetails = async () => {
+    setLoading(true);
+    const data1=await getAllOrdersByType("category", "topsallers");
+    const data = await getAllOrdersByType("category", "topsallers");
+    setProducts(data?.products);
+    setLoading(false);
+  };
+
+
+
   useEffect(() => {
     filterData();
   }, [activeTab]);

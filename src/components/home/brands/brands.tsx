@@ -4,6 +4,7 @@ import styles from "../../../styles/Home.module.scss";
 import Card from "../cards/card";
 import { useEffect, useState } from "react";
 import { getAllBrands } from "@/services/product.services";
+import Link from "next/link";
 const Brands = () => {
   const [brands, setBrands] = useState<any>([]);
   const getAllBrandss = async () => {
@@ -21,9 +22,11 @@ const Brands = () => {
         {brands?.map((item: any, index: any) => {
           console.log("item", item);
           return (
+            <Link href={`/collection/$item`} >
             <div key={index} data-testid={`brand-image-${index}`}>
               <h2>{item}</h2>
             </div>
+            </Link>
           );
         })}
       </div>

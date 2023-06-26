@@ -31,6 +31,7 @@ export async function getProductDetails(id: any) {
   } catch (error) {
     console.error(error);
   }
+
 }
 
 export async function getAllBrands() {

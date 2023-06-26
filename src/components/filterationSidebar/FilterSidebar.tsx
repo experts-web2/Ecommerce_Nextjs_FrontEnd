@@ -8,12 +8,53 @@ const FilterationSideBar = ({ filters }: any) => {
   const [checkedFilters, setCheckedFilters] = useState<any>([]);
 
   const handleFilters = (category: any, value: any) => {
-    if (checkedFilters.includes(value)) {
-      setCheckedFilters(checkedFilters.filter((item: any) => item !== value));
+
+    let updatedFilters = [...checkedFilters];
+    let categoryFilter = updatedFilters.find((filter: any) => filter.hasOwnProperty(category));
+  
+    if (categoryFilter) {
+      if (categoryFilter[category].includes(value)) {
+        categoryFilter[category] = categoryFilter[category].filter((item: any) => item !== value);
+      } else {
+        categoryFilter[category] = [...categoryFilter[category], value];
+      }
     } else {
-      setCheckedFilters([...checkedFilters, value]);
-    }
+      updatedFilters.push({ [category]: [value] });
+    }  
+    setCheckedFilters(updatedFilters);
   };
+
+  useEffect(() => {
+    const buildQueryString = () => {
+      const queryParams:any = [];
+    
+      checkedFilters.forEach((filter:any) => {
+        const filterName = Object.keys(filter)[0];
+        const filterValues = filter[filterName];
+    
+        const formattedValues = filterValues.map((value:any) => encodeURIComponent(value));
+        const formattedQuery = formattedValues.join(',');
+    
+        queryParams.push(`${filterName}=${formattedQuery}`);
+      });
+    
+      return queryParams.join('&');
+    };
+
+    const fetchData = async () => {
+      const queryString = buildQueryString();
+      const apiUrl = `https://example.com/api?${queryString}`;
+  
+      try {
+        console.log("apiUrl", apiUrl)
+      } catch (error) {
+        console.error(error,apiUrl);
+      }
+    };
+  
+    fetchData();
+
+  }, [checkedFilters]);
 
   return (
     <div>
@@ -35,7 +76,7 @@ const FilterationSideBar = ({ filters }: any) => {
                 type="checkbox"
                 className="form-checkbox h-4 w-4 transition duration-150 ease-in-out mr-3"
                 value={brand}
-                checked={checkedFilters.includes(brand)}
+                checked={checkedFilters.some((filter:any) => filter.hasOwnProperty('brands') && filter.brands.includes(brand))}
                 onChange={() => handleFilters("brands", brand)}
               />
               <label htmlFor={`brand-${brand}`} className="block text-sm">
@@ -63,7 +104,7 @@ const FilterationSideBar = ({ filters }: any) => {
                   type="checkbox"
                   className="form-checkbox h-4 w-4 transition duration-150 ease-in-out mr-3"
                   value={size}
-                  checked={checkedFilters.includes(size)}
+                  checked={checkedFilters.some((filter:any) => filter.hasOwnProperty('sizes') && filter.sizes.includes(size))}
                   onChange={() => handleFilters("sizes", size)}
                 />
                 <label htmlFor={`size-${size}`} className="block text-sm">
@@ -92,8 +133,8 @@ const FilterationSideBar = ({ filters }: any) => {
                   type="checkbox"
                   className="form-checkbox h-4 w-4 transition duration-150 ease-in-out mr-3"
                   value={gender}
-                  checked={checkedFilters.includes(gender)}
-                  onChange={() => handleFilters("sizes", gender)}
+                  checked={checkedFilters.some((filter:any) => filter.hasOwnProperty('gender') && filter.gender == gender)}
+                  onChange={() => handleFilters("gender", gender)}
                 />
                 <label htmlFor={`size-${gender}`} className="block text-sm">
                   {gender}
